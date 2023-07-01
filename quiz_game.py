@@ -5,7 +5,7 @@ playing = input('Do you want to play? ')
 if playing.lower() != 'yes':
     quit()
 
-print("okay ! let's play :)")
+print("okay ! let's play :)") 
 score = 0
 
 answer = input("What does CPU stand for? ")
