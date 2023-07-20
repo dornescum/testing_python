@@ -12,8 +12,8 @@ def main_request(baseurl, endpoint, x):
 
 
 def get_pages(response):
-      pages = response['info']['pages']
-      return pages
+    pages = response['info']['pages']
+    return pages
 
 
 def parse_json(response):
