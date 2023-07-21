@@ -1,9 +1,55 @@
-from flask import Flask, request, jsonify
+import sqlite3
+
+from flask import Flask, request, jsonify, render_template
+
 # import os
 
+# connect to db
+conn = sqlite3.connect('customer.db')
+
+# create a cursor
+c = conn.cursor()
+
+# create a table
+# c.execute("""CREATE TABLE customers(
+#             first_name TEXT NOT NULL,
+#             last_name TEXT NOT NULL,
+#             email TEXT NOT NULL
+#             )
+#             """)
+
+# insert into db
+# c.execute("""INSERT INTO customers VALUES('mihai', 'popescu', 'mihai@mihi.com')""")
+
+# insert many customers
+# many_customers = [
+#     ('gicu', 'unu', 'g@dsa.com'),
+#     ('gogu', 'doi', 'doi@email.com'),
+#     ('fane', 'trei', 'trei@email.com'),
+# ]
+# c.executemany("INSERT INTO customers VALUES (?,?,?)", many_customers)
+
+# query & fetch
+c.execute('SELECT rowid, * FROM customers')
+# c.fetchone()
+# c.fetchmany(3)
+# print(c.fetchall())
+items = c.fetchall()
+# print(items)
+for item in items:
+    print(item)
+
+# commit our command
+conn.commit()
+
+# close connection
+conn.close()
 
 app = Flask(__name__)
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///friends.db'
 # basedir = os.path.abspath(os.path.dirname(__file__))
+# Initialize the db
+# db = SQLAlchemy(app)
 
 
 users = []
@@ -11,7 +57,9 @@ users = []
 
 @app.route('/')
 def home():
-    return 'Home'
+    # return 'Home'
+    title = 'blog'
+    return render_template('index.html', tittle=title)
 
 
 @app.route('/get-user/<user_id>')
