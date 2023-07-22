@@ -3,12 +3,18 @@ import sqlite3
 from flask import Flask, request, jsonify, render_template
 
 # import os
+import os
+# print("Current Working Directory:", os.getcwd())
+db_path = os.path.join(os.getcwd(), "customers.db")
+print(db_path)
+
 
 # connect to db
-conn = sqlite3.connect('customer.db')
+# conn = sqlite3.connect('customer.db')
+conn = sqlite3.connect(db_path)
 
 # create a cursor
-c = conn.cursor()
+# c = conn.cursor()
 
 # create a table
 # c.execute("""CREATE TABLE customers(
@@ -30,20 +36,25 @@ c = conn.cursor()
 # c.executemany("INSERT INTO customers VALUES (?,?,?)", many_customers)
 
 # query & fetch
-c.execute('SELECT rowid, * FROM customers')
+# c.execute('SELECT rowid, * FROM customers')
 # c.fetchone()
 # c.fetchmany(3)
-# print(c.fetchall())
-items = c.fetchall()
+# # print(c.fetchall())
+# items = c.fetchall()
 # print(items)
-for item in items:
-    print(item)
+# for item in items:
+#     print(item)
+
+# c.execute("SELECT * FROM customers WHERE email = 'trei@email.com'")
+# items = c.fetchall()
+# print(items)
+
 
 # commit our command
-conn.commit()
+# conn.commit()
 
 # close connection
-conn.close()
+# conn.close()
 
 app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///friends.db'
@@ -58,8 +69,37 @@ users = []
 @app.route('/')
 def home():
     # return 'Home'
-    title = 'blog'
-    return render_template('index.html', tittle=title)
+    # con = sqlite3.connect("customer
+    # s.db")
+    # con.row_factory = sqlite3.Row
+    #
+    # cur = con.cursor()
+    # cur.execute("SELECT rowid, * FROM customers")
+    #
+    # rows = cur.fetchall()
+    # con.close()
+    #
+    # print(rows)
+    # # title = 'blog'
+    # return render_template('index.html', rows=rows)
+
+    try:
+        # con = sqlite3.connect(db_path)
+        con = sqlite3.connect("customer.db")
+        con.row_factory = sqlite3.Row
+
+        cur = con.cursor()
+        cur.execute("SELECT rowid, * FROM customers")
+
+        rows = cur.fetchall()
+        con.close()
+
+        return render_template('index.html', rows=rows)
+    except Exception as e:
+        # Print the error for debugging purposes (optional)
+        print("An error occurred:", str(e))
+        # Return an error message or redirect to an error page if necessary
+        return "An error occurred. Please try again later."
 
 
 @app.route('/get-user/<user_id>')
@@ -69,7 +109,7 @@ def get_user(user_id):
         "name": "John Doe",
         "email": "some@email.com"
     }
-    """querry params 
+    """querry params
     http://127.0.0.1:5000/get-user/1?extra="hellow"
     """
     extra = request.args.get('extra')
