@@ -20,3 +20,5 @@ test3 = 'Good Best python course'
 # re.search('Best|Good', test3)
 re.findall('Best|Good', test3)
 re.findall('AAAA', test3)
+
+print(re.findall('Best|Good', test3))

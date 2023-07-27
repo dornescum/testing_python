@@ -7,9 +7,9 @@ Original file is located at
     https://colab.research.google.com/drive/1WL-Op9_icqkL7sR2zfj5Ha0dVtFHW1q1
 """
 
-import spacy
+import spacy as sp
 
-nlp = spacy.load("en_core_web_sm")
+nlp = sp.load("en_core_web_sm")
 
 
 text = "Newcastle United's newest recruit Harvey Barnes says playing in the Magpies team is an attacker's dream."
